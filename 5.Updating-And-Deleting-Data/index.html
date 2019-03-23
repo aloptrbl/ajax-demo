@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <title>Update Data to Table</title>
+</head>
+<body>
+    <form id="add-car-form" method="post" action="add-cars.php">
+        <div class="ui center aligned header">
+                <h1 class="ui" id="result">
+                Add Cars
+                </h1>  
+        </div>
+        <div class="ui center aligned header">
+                <div class="ui action input">
+                        <input type="text" name="car_name" placeholder="Search...">
+                        <button type="submit" class="ui button">Submit</button>
+                      </div>
+        </div>
+        <div class="ui center aligned header">
+              <h3 id="car-result"></h3>
+        </div>
+    </form>
+    <div class="ui container">
+            <table class="ui celled striped table">
+                    <thead>
+                      <tr><th class="center aligned" colspan="3">
+                        Result
+                      </th>
+                    </tr></thead>
+                    <tbody id="show-cars">
+                    
+                    </tbody>
+                  </table>
+                  <p id="feedback" class="green"></p>
+            <div id="action-container"></div>
+    </div>
+    <script>
+    $(document).ready(function(){
+
+        $("#action-container").hide();     
+setInterval(function(){
+updateCars();
+}, 1000);
+
+
+
+
+function updateCars(){
+//Show Car Function
+$.ajax({
+    url: 'display_cars.php',
+    type: 'POST',
+    success: function(show_cars){
+    if(!show_cars.error) {
+        $("#show-cars").html(show_cars);
+    }
+
+
+    }
+
+});
+
+}
+        //Add Car Function
+$("#add-car-form").submit(function(event){
+//prevent sent default functionally
+event.preventDefault();
+
+var postData = $(this).serialize();
+var url = $(this).attr('action');
+
+$.post(url, postData, function(php_table_data){
+$('#car-result').html(php_table_data);
+})
+})
+
+
+
+})
+    </script>
+</body>
+</html>

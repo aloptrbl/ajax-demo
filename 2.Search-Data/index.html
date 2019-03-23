@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <title>AJAX Test 2</title>
+</head>
+<body>
+<script>
+
+</script>   
+
+<div  class="ui two column centered grid">
+<div class="ui centered column"><h1 class="ui center aligned header">Search Database</h1></div>
+</div>
+<div class="ui center aligned header">
+        <div class="ui small icon input">
+                <input type="text" name="search" id="search" placeholder="Search...">
+                <i class="search icon"></i>
+              </div>
+             
+</div>
+<br><br>
+<div class="ui center aligned header">
+<h1 class="ui" id="result">
+</h1>
+</div>
+<script>
+$(document).ready(function(){
+    $('#search').keyup(function(){
+    
+    var search = $('#search').val();
+
+    $.ajax({
+        //PARAMETER
+        //url what request we goes to
+        url:'search.php',
+        data:{search:search},
+        type: 'POST',
+        success: function(data){
+            if(!data.error) {
+                $('#result').html(data);
+                $('#result').addClass('red label');
+            }
+        }
+    });
+
+    });
+})
+</script>
+</body>
+</html>
